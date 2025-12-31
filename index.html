@@ -16,7 +16,17 @@
       --radius:18px;
       --radius2:14px;
       --blur: saturate(180%) blur(16px);
+
+      /* Mobile first sizing */
+      --pad:14px;
+      --gap:12px;
+      --tap:44px;
+      --hm:12px;
+      --hmGap:4px;
+      --monthH:42px;
+      --h1:24px;
     }
+
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
     body{
@@ -25,29 +35,71 @@
       background:var(--bg);
       color:var(--text);
     }
-    .app{ max-width:980px; margin:0 auto; min-height:100%; padding:18px 18px 92px; }
-    .topbar{ display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin:10px 0 14px; }
-    .title{ line-height:1.05; }
-    .title h1{ margin:0; font-size:28px; letter-spacing:-0.02em; }
-    .title p{ margin:6px 0 0; color:var(--muted); font-size:13px; }
 
-    .controls{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
+    .app{
+      max-width:560px;           /* priorité mobile */
+      margin:0 auto;
+      min-height:100%;
+      padding:var(--pad) var(--pad) 98px;
+    }
+
+    .topbar{
+      display:flex;
+      flex-direction:column;     /* priorité mobile */
+      align-items:stretch;
+      gap:12px;
+      margin:8px 0 12px;
+    }
+
+    .title{ line-height:1.05; }
+    .title h1{
+      margin:0;
+      font-size:var(--h1);
+      letter-spacing:-0.02em;
+    }
+    .title p{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .controls{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-start; /* mobile */
+    }
+
     .pill{
-      height:38px; padding:0 12px; border-radius:999px;
-      border:1px solid var(--border); background:#fff;
-      display:flex; align-items:center; gap:8px;
+      height:38px;
+      padding:0 12px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:#fff;
+      display:flex;
+      align-items:center;
+      gap:8px;
       box-shadow:0 6px 18px rgba(0,0,0,.05);
     }
+
     select,button,input,textarea{ font:inherit; color:inherit; }
     select{ border:none; outline:none; background:transparent; cursor:pointer; }
+
     button{
-      border:1px solid var(--border); background:#fff;
-      border-radius:999px; height:38px; padding:0 14px;
-      cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,.05);
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius:999px;
+      height:38px;
+      padding:0 14px;
+      cursor:pointer;
+      box-shadow:0 6px 18px rgba(0,0,0,.05);
+      -webkit-tap-highlight-color: transparent;
     }
     button:active{ transform:translateY(1px); }
 
-    .gridWrap{ display:grid; grid-template-columns:1fr; gap:14px; }
+    .gridWrap{ display:grid; grid-template-columns:1fr; gap:var(--gap); }
+
     .card{
       background:var(--card);
       backdrop-filter:var(--blur);
@@ -58,10 +110,21 @@
       padding:14px;
     }
 
-    .stats{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
-    .statGroup{ display:flex; gap:10px; flex-wrap:wrap; }
+    .stats{
+      display:flex;
+      flex-direction:column;   /* mobile */
+      gap:10px;
+      align-items:stretch;
+      justify-content:space-between;
+    }
+    .statGroup{
+      display:grid;            /* mobile */
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
     .stat{
-      min-width:160px; padding:10px 12px;
+      min-width:0;
+      padding:10px 12px;
       border-radius:var(--radius2);
       border:1px solid var(--border);
       background:#fff;
@@ -72,26 +135,30 @@
     .hint{ color:var(--muted); font-size:12px; margin:0; }
 
     /* Year heatmap */
-    .heatmap{ overflow-x:auto; padding-bottom:4px; }
+    .heatmap{ overflow-x:auto; padding-bottom:4px; -webkit-overflow-scrolling: touch; }
     .hmGrid{
       display:grid;
       grid-auto-flow:column;
-      grid-auto-columns:14px;
-      grid-template-rows:repeat(7,14px);
-      gap:4px;
+      grid-auto-columns:var(--hm);
+      grid-template-rows:repeat(7,var(--hm));
+      gap:var(--hmGap);
       width:max-content;
-      padding:6px 2px 2px;
+      padding:8px 2px 2px;
+    }
+    .cell{
+      width:var(--hm);
+      height:var(--hm);
+      border-radius:4px;
+      border:1px solid rgba(0,0,0,.06);
+      background:#e9e9ef;
+      cursor:pointer;
     }
 
     /* Month grid */
     .monthWrap{ display:grid; gap:10px; }
     .monthHeader{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
-    .monthTitle{ font-weight:800; letter-spacing:-0.01em; }
-    .monthGrid{
-      display:grid;
-      grid-template-columns:repeat(7, 1fr);
-      gap:6px;
-    }
+    .monthTitle{ font-weight:900; letter-spacing:-0.01em; }
+    .monthGrid{ display:grid; grid-template-columns:repeat(7, 1fr); gap:6px; }
     .dow{
       font-size:11px;
       color:var(--muted);
@@ -99,7 +166,7 @@
       padding:4px 0 2px;
     }
     .dayCell{
-      height:44px;
+      height:var(--monthH);
       border-radius:12px;
       border:1px solid rgba(0,0,0,.06);
       background:#e9e9ef;
@@ -110,10 +177,11 @@
       cursor:pointer;
       position:relative;
       user-select:none;
+      -webkit-tap-highlight-color: transparent;
     }
     .dayCell .num{
       font-size:12px;
-      font-weight:800;
+      font-weight:900;
       color:rgba(0,0,0,.75);
       mix-blend-mode:multiply;
     }
@@ -123,20 +191,29 @@
       outline-offset:2px;
     }
 
-    .cell{
-      width:14px; height:14px; border-radius:4px;
-      border:1px solid rgba(0,0,0,.06);
-      background:#e9e9ef; cursor:pointer;
+    .legend{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      color:var(--muted);
+      font-size:12px;
+      margin-top:10px;
     }
-
-    .legend{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; color:var(--muted); font-size:12px; margin-top:10px; }
     .swatches{ display:flex; gap:6px; align-items:center; }
     .sw{ width:14px; height:14px; border-radius:4px; border:1px solid rgba(0,0,0,.06); }
 
-    .editorHeader{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+    .editorHeader{
+      display:flex;
+      flex-direction:column;     /* mobile */
+      align-items:stretch;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
     .editorTitle{ font-weight:900; letter-spacing:-0.01em; }
     .tiny{ font-size:12px; color:var(--muted); }
-    .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-start; }
 
     .section{
       margin-top:12px;
@@ -158,17 +235,29 @@
     .stepper .value{ font-size:22px; font-weight:900; letter-spacing:-0.02em; }
     .btns{ display:flex; gap:8px; }
     .iconBtn{
-      width:44px; height:44px; border-radius:14px;
-      border:1px solid var(--border); background:#fff;
-      cursor:pointer; font-size:18px; font-weight:900;
+      width:var(--tap);
+      height:var(--tap);
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:#fff;
+      cursor:pointer;
+      font-size:18px;
+      font-weight:900;
       box-shadow:0 6px 18px rgba(0,0,0,.05);
+      -webkit-tap-highlight-color: transparent;
     }
 
     .presets{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
     .chip{
-      height:34px; padding:0 12px; border-radius:999px;
-      border:1px solid var(--border); background:#fff;
-      cursor:pointer; font-weight:700; color:var(--muted);
+      height:34px;
+      padding:0 12px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:#fff;
+      cursor:pointer;
+      font-weight:800;
+      color:var(--muted);
+      -webkit-tap-highlight-color: transparent;
     }
     .chip.active{
       color:var(--text);
@@ -178,8 +267,12 @@
 
     .palette{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
     .dot{
-      width:26px; height:26px; border-radius:999px;
-      border:1px solid rgba(0,0,0,.10); cursor:pointer;
+      width:28px;
+      height:28px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.10);
+      cursor:pointer;
+      -webkit-tap-highlight-color: transparent;
     }
     .dot.selected{
       outline:3px solid rgba(0,0,0,.18);
@@ -188,7 +281,7 @@
 
     textarea{
       width:100%;
-      min-height:70px;
+      min-height:86px;
       border-radius:14px;
       border:1px solid var(--border);
       padding:10px 12px;
@@ -201,19 +294,33 @@
     .hidden{ display:none; }
 
     .tabs{
-      position:fixed; left:0; right:0; bottom:0;
+      position:fixed;
+      left:0; right:0; bottom:0;
       background:rgba(255,255,255,.85);
       backdrop-filter:var(--blur);
       -webkit-backdrop-filter:var(--blur);
       border-top:1px solid var(--border);
       padding:10px 14px 18px;
     }
-    .tabbar{ max-width:980px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .tabbar{
+      max-width:560px;           /* mobile */
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
     .tab{
-      height:44px; border-radius:14px; border:1px solid var(--border);
-      background:#fff; cursor:pointer;
-      display:flex; align-items:center; justify-content:center;
-      font-weight:800; color:var(--muted);
+      height:44px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:#fff;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+      color:var(--muted);
+      -webkit-tap-highlight-color: transparent;
     }
     .tab.active{
       color:var(--text);
@@ -267,15 +374,28 @@
       font-size:16px;
       cursor:pointer;
       box-shadow:0 6px 18px rgba(0,0,0,.05);
+      -webkit-tap-highlight-color: transparent;
     }
     .key.muted{ color:var(--muted); font-weight:800; }
+
+    /* Desktop enhancements (opt-in) */
+    @media (min-width: 820px){
+      :root{ --pad:18px; --gap:14px; --hm:14px; --monthH:44px; --h1:28px; }
+      .app{ max-width:980px; padding:18px 18px 92px; }
+      .topbar{ flex-direction:row; align-items:flex-end; justify-content:space-between; }
+      .controls{ justify-content:flex-end; }
+      .stats{ flex-direction:row; align-items:center; }
+      .statGroup{ display:flex; }
+      .editorHeader{ flex-direction:row; align-items:center; }
+      .tabbar{ max-width:980px; }
+    }
   </style>
 </head>
 <body>
   <div class="app" id="appRoot">
     <div class="topbar">
       <div class="title">
-        <h1 id="pageTitle">Alcool</h1>
+        <h1 id="pageTitle">Journal</h1>
         <p id="pageSub">Vue année ou mois. Clique un jour puis saisis en dessous.</p>
       </div>
 
@@ -303,11 +423,11 @@
         <div class="stats">
           <div class="statGroup">
             <div class="stat">
-              <div class="k" id="k1">Total annuel</div>
+              <div class="k" id="k1">Jours avec note</div>
               <div class="v" id="v1">0</div>
             </div>
             <div class="stat">
-              <div class="k" id="k2">Jours saisis</div>
+              <div class="k" id="k2">Jours colorés</div>
               <div class="v" id="v2">0</div>
             </div>
           </div>
@@ -340,7 +460,7 @@
             <div class="editorTitle" id="editorTitle">Saisie</div>
             <div class="tiny" id="editorSub">Sélectionne un jour pour saisir</div>
           </div>
-          <div class="row" style="justify-content:flex-end;">
+          <div class="row">
             <button id="saveBtn" class="hidden">Enregistrer</button>
             <button id="clearBtn" class="hidden danger">Effacer</button>
           </div>
@@ -370,7 +490,7 @@
           <div class="tiny" style="margin-bottom:8px;">Phrase de résumé (120 caractères max)</div>
           <textarea id="noteInput" placeholder="Une phrase courte."></textarea>
           <div class="countRow">
-            <div class="tiny">Conseil: 1 phrase, 1 idée.</div>
+            <div class="tiny">1 phrase, 1 idée.</div>
             <div class="tiny"><span id="count">0</span>/120</div>
           </div>
         </div>
@@ -380,8 +500,8 @@
 
   <div class="tabs">
     <div class="tabbar">
-      <div class="tab active" id="tabAlcohol">Alcool</div>
-      <div class="tab" id="tabJournal">Journal</div>
+      <div class="tab" id="tabAlcohol">Alcool</div>
+      <div class="tab active" id="tabJournal">Journal</div>
     </div>
   </div>
 
@@ -396,9 +516,7 @@
       </div>
 
       <div class="pinDots" id="pinDots"></div>
-
       <div class="keypad" id="keypad"></div>
-
       <div style="margin-top:10px;" class="tiny" id="pinHint"></div>
     </div>
   </div>
@@ -409,16 +527,16 @@
       const PIN_KEY = "tracker.pin.v1"; // { salt, hash }
 
       const state = {
-        page: "alcohol", // alcohol | journal
+        page: "journal",          // default journal
         year: new Date().getFullYear(),
-        view: "year", // year | month
-        monthIndex: new Date().getMonth(), // 0..11
+        view: "year",
+        monthIndex: new Date().getMonth(),
         selectedDate: null,
         data: { days: {} },
         unlocked: false
       };
 
-      // Seuils alcool:
+      // Alcool:
       // vert: 0
       // bleu: 1-2
       // orange: 3-5
@@ -453,8 +571,8 @@
       }
 
       function dayOfWeekMon0(date){
-        const js = date.getDay(); // Sun=0
-        return (js + 6) % 7; // Mon=0
+        const js = date.getDay();
+        return (js + 6) % 7;
       }
       function startOfYear(year){ return new Date(year,0,1); }
       function endOfYear(year){ return new Date(year,11,31); }
@@ -466,7 +584,6 @@
         const cur = getDay(dateStr);
         const next = { ...cur, ...patch };
 
-        // Normalisation
         if(next.moodNote != null) next.moodNote = String(next.moodNote);
         if(next.moodNote) next.moodNote = next.moodNote.slice(0,120);
 
@@ -619,7 +736,7 @@
           cell.onclick = () => {
             state.selectedDate = dateStr;
             renderEditor();
-            render(); // refresh highlight
+            render();
           };
 
           if(state.selectedDate === dateStr){
@@ -641,7 +758,6 @@
         const m = state.monthIndex;
         $("monthTitle").textContent = `${monthName(m)} ${y}`;
 
-        // DOW row
         const dow = ["L","M","M","J","V","S","D"];
         const dowRow = $("dowRow");
         dowRow.innerHTML = "";
@@ -654,13 +770,12 @@
 
         const first = new Date(y, m, 1);
         const last = new Date(y, m+1, 0);
-        const startPad = dayOfWeekMon0(first); // 0..6
+        const startPad = dayOfWeekMon0(first);
         const totalDays = last.getDate();
 
         const grid = $("monthGrid");
         grid.innerHTML = "";
 
-        // We show 6 weeks to keep stable height
         const cells = 42;
         for(let i=0;i<cells;i++){
           const dayNum = i - startPad + 1;
@@ -792,7 +907,6 @@
 
         const entry = getDay(dateStr);
 
-        // Alcool editor
         if(state.page==="alcohol"){
           const doses = (typeof entry.alcoholDoses === "number") ? entry.alcoholDoses : 0;
           $("doseValue").textContent = String(doses);
@@ -832,7 +946,6 @@
           };
         }
 
-        // Journal editor
         if(state.page==="journal"){
           const palette = $("palette");
           palette.innerHTML = "";
@@ -867,7 +980,6 @@
         }
       }
 
-      // Actions save/clear
       $("saveBtn").onclick = () => {
         if(!state.selectedDate) return;
         const dateStr = state.selectedDate;
@@ -893,7 +1005,6 @@
         render();
       };
 
-      // View + month nav
       $("viewSelect").onchange = () => setView($("viewSelect").value);
 
       $("prevMonth").onclick = () => {
@@ -909,7 +1020,6 @@
         render();
       };
 
-      // Tabs
       $("tabAlcohol").onclick = () => setPage("alcohol");
       $("tabJournal").onclick = () => setPage("journal");
 
@@ -923,7 +1033,6 @@
         render();
       };
 
-      // Journal counter hard limit 120
       $("noteInput").addEventListener("input", () => {
         const v = ($("noteInput").value || "");
         if(v.length > 120){
@@ -932,7 +1041,7 @@
         $("count").textContent = String($("noteInput").value.length);
       });
 
-      // ---------------- PIN (simple, pas cryptographiquement "fort")
+      // PIN (verrou UI)
       function randHex(bytes){
         const a = new Uint8Array(bytes);
         crypto.getRandomValues(a);
@@ -957,17 +1066,11 @@
         localStorage.setItem(PIN_KEY, JSON.stringify(rec));
       }
 
-      const pinUI = {
-        mode: "unlock", // unlock | set1 | set2
-        buf: "",
-        first: ""
-      };
+      const pinUI = { mode:"unlock", buf:"", first:"" };
 
       function showPin(mode){
         pinUI.mode = mode;
         pinUI.buf = "";
-        pinUI.first = (mode==="set2") ? pinUI.first : pinUI.first;
-
         $("pinOverlay").classList.add("show");
         $("pinCancel").classList.toggle("hidden", mode==="unlock");
         renderPin();
@@ -994,8 +1097,8 @@
         } else if(pinUI.mode === "set1"){
           $("pinTitle").textContent = "Créer un PIN";
           $("pinSub").textContent = "Entre un code à 4 chiffres";
-          $("pinHint").textContent = "Ce PIN verrouille seulement l’interface. Ce n’est pas un coffre-fort.";
-        } else if(pinUI.mode === "set2"){
+          $("pinHint").textContent = "Verrou d’interface uniquement.";
+        } else {
           $("pinTitle").textContent = "Confirmer";
           $("pinSub").textContent = "Rentre le même code";
           $("pinHint").textContent = "";
@@ -1005,7 +1108,6 @@
       function buildKeypad(){
         const kp = $("keypad");
         kp.innerHTML = "";
-
         const keys = ["1","2","3","4","5","6","7","8","9","effacer","0","ok"];
         keys.forEach(k=>{
           const b = document.createElement("button");
@@ -1026,9 +1128,7 @@
             if(pinUI.buf.length >= 4) return;
             pinUI.buf += k;
             renderPin();
-            if(pinUI.buf.length === 4){
-              await pinSubmit();
-            }
+            if(pinUI.buf.length === 4) await pinSubmit();
           };
           kp.appendChild(b);
         });
@@ -1039,7 +1139,6 @@
 
         const rec = getPinRecord();
 
-        // If no pin exists, force set flow
         if(!rec && pinUI.mode === "unlock"){
           pinUI.mode = "set1";
           pinUI.buf = "";
@@ -1083,12 +1182,10 @@
           setPinRecord({ salt, hash });
           state.unlocked = true;
           hidePin();
-          return;
         }
       }
 
       $("pinCancel").onclick = () => {
-        // Back to unlock
         pinUI.mode = "unlock";
         pinUI.buf = "";
         pinUI.first = "";
@@ -1098,11 +1195,8 @@
       function lock(){
         state.unlocked = false;
         const rec = getPinRecord();
-        if(rec){
-          showPin("unlock");
-        } else {
-          showPin("set1");
-        }
+        if(rec) showPin("unlock");
+        else showPin("set1");
       }
 
       $("lockBtn").onclick = () => lock();
@@ -1112,21 +1206,19 @@
       buildKeypad();
       buildLegend();
 
-      // Default selection: today
       const today = new Date();
       state.selectedDate = iso(today);
       state.monthIndex = today.getMonth();
 
       $("viewSelect").value = state.view;
-      $("viewSelect").onchange = () => setView($("viewSelect").value);
-
       $("hint").textContent = "Les jours non saisis restent neutres";
+
       renderEditor();
       render();
 
-      // Start locked
+      // Start locked + default journal
       lock();
-      setPage("alcohol");
+      setPage("journal");
     })();
   </script>
 </body>
